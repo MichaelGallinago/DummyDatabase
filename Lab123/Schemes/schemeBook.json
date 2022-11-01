@@ -1,0 +1,40 @@
+{
+  "name": "Book",
+  "columns": [
+    {
+      "name": "id",
+      "type": "int",
+      "isPrimary": true
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "isPrimary": false
+    },
+    {
+      "name": "author",
+      "type": "string",
+      "isPrimary": false
+    },
+    {
+      "name": "year",
+      "type": "int",
+      "isPrimary": false
+    },
+    {
+      "name": "bookshelfID",
+      "type": "int",
+      "isPrimary": false
+    },
+    {
+      "name": "shelfID",
+      "type": "int",
+      "isPrimary": false
+    },
+    {
+      "name": "availability",
+      "type": "bool",
+      "isPrimary": false
+    }
+  ]
+}
