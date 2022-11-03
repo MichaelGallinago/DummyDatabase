@@ -3,12 +3,12 @@
   "columns": [
     {
       "name": "userID",
-      "type": "int",
+      "type": "uint",
       "isPrimary": true
     },
     {
       "name": "bookID",
-      "type": "int",
+      "type": "uint",
       "isPrimary": true
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "name": "returnDate",
-      "type": "dateTime",
+      "type": "dateTime'",
       "isPrimary": false
     }
   ]

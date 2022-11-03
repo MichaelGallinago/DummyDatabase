@@ -3,13 +3,8 @@
   "columns": [
     {
       "name": "id",
-      "type": "int",
+      "type": "uint",
       "isPrimary": true
-    },
-    {
-      "name": "name",
-      "type": "string",
-      "isPrimary": false
     },
     {
       "name": "author",
@@ -17,23 +12,23 @@
       "isPrimary": false
     },
     {
+      "name": "name",
+      "type": "string",
+      "isPrimary": false
+    },
+    {
       "name": "year",
-      "type": "int",
+      "type": "uint",
       "isPrimary": false
     },
     {
       "name": "bookshelfID",
-      "type": "int",
+      "type": "uint",
       "isPrimary": false
     },
     {
       "name": "shelfID",
-      "type": "int",
-      "isPrimary": false
-    },
-    {
-      "name": "availability",
-      "type": "bool",
+      "type": "uint",
       "isPrimary": false
     }
   ]
