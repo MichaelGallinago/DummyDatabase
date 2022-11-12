@@ -84,25 +84,23 @@ namespace Lab123
 
         private static void WriteTable(Dictionary<uint, Book> books, Dictionary<uint, User> users, Dictionary<string, uint> maxDataLength)
         {
-            string GetWPS(string key, int offset) => new string(' ', (int)maxDataLength[key] - offset);
+            string GetWPS(string key, string text) => $" {text.PadRight((int)maxDataLength[key])} ";
 
-            var frame = $"| {GetWPS("autor", 0)} | {GetWPS("book", 0)} | {GetWPS("user", 0)} | {GetWPS("date", 0)} |".Replace(' ', '-');
-            Console.WriteLine($"| Автор{GetWPS("autor", 5)} | Название{GetWPS("book", 8)} | Читает{GetWPS("user", 6)} | Взял{GetWPS("date", 4)} |");
+            var frame = $"|{GetWPS("autor", "")}|{GetWPS("book", "")}|{GetWPS("user", "")}|{GetWPS("date", "")}|".Replace(' ', '-');
+            Console.WriteLine($"|{GetWPS("autor", "Автор")}|{GetWPS("book", "Название")}|{GetWPS("user", "Читает")}|{GetWPS("date", "Взял")}|");
             Console.WriteLine(frame);
             foreach (KeyValuePair<uint, Book> keyBook in books)
             {
                 var book = keyBook.Value;
-                Console.Write($"| {book.Author}{GetWPS("autor", book.Author.Length)} | {book.Name}{GetWPS("book", book.Name.Length)} |");
-                if (book.Availability)
+                Console.Write($"|{GetWPS("autor", book.Author)}|{GetWPS("book", book.Name)}|");
+
+                string userName = "", takeDate = "";
+                if (!book.Availability)
                 {
-                    Console.WriteLine($" {GetWPS("user", 0)} | {GetWPS("date", 0)} |");
+                    userName = users[book.UserBook.Item1].FullName;
+                    takeDate = book.UserBook.Item2.ToString();
                 }
-                else
-                {
-                    var userName = users[book.UserBook.Item1].FullName;
-                    var takeDate = book.UserBook.Item2;
-                    Console.WriteLine($" {userName}{GetWPS("user", userName.Length)} | {takeDate}{GetWPS("date", takeDate.ToString().Length)} |");
-                }
+                Console.WriteLine($"{GetWPS("user", userName)}|{GetWPS("date", takeDate)}|");
             }
             Console.WriteLine(frame);
         }
