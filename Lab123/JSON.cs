@@ -15,10 +15,18 @@ namespace Lab123
                     bool isCorrecType = true;
                     switch (scheme.Elements[j].Type)
                     {
-                        case "uint": isCorrecType = uint.TryParse(rowСell, out _); break;
-                        case "bool": isCorrecType = bool.TryParse(rowСell, out _); break;
-                        case "dateTime":  isCorrecType = DateTime.TryParse(rowСell, out _); break;
-                        case "dateTime'": isCorrecType = DateTime.TryParse(rowСell, out _) || rowСell == ""; break;
+                        case "uint": 
+                            isCorrecType = uint.TryParse(rowСell, out _); 
+                            break;
+                        case "bool": 
+                            isCorrecType = bool.TryParse(rowСell, out _); 
+                            break;
+                        case "dateTime":  
+                            isCorrecType = DateTime.TryParse(rowСell, out _); 
+                            break;
+                        case "dateTime'": 
+                            isCorrecType = DateTime.TryParse(rowСell, out _) || rowСell == ""; 
+                            break;
                     }
 
                     if (!isCorrecType) 
