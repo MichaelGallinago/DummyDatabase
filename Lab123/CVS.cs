@@ -1,6 +1,4 @@
-﻿using System.Data.Common;
-
-namespace Lab123
+﻿namespace Lab123
 {
     class CVS
     {

@@ -21,7 +21,8 @@ namespace Lab123
                         case "dateTime'": isCorrecType = DateTime.TryParse(rowСell, out _) || rowСell == ""; break;
                     }
 
-                    if (!isCorrecType) return DisplayErrorMessage(i, j, rowСells);
+                    if (!isCorrecType) 
+                        return ThrowErrorMessage(i, j, rowСells[j]);
                 }
             }
             return IsColumnsNamesValid(rows[0], scheme);
@@ -32,25 +33,19 @@ namespace Lab123
             string[] rowСells = row.Split(";");
             for (int i = 0; i < rowСells.Length; i++)
                 if (rowСells[i] != scheme.Elements[i].Name)
-                    return DisplayErrorMessage(0, 0, rowСells);
+                    return ThrowErrorMessage(0, i, rowСells[i]);
             return true;
         }
 
-        private static bool DisplayErrorMessage(int row, int column, string[] rowСells)
+        private static bool ThrowErrorMessage(int row, int column, string element)
         {
-            throw new FormatException($"Wrong type in row {row} and column {column} element: {rowСells[column]}");
+            throw new FormatException($"Wrong type in row {row} and column {column} element: {element}");
         }
 
         public static Scheme GetScheme(string path)
         {
             return JsonConvert.DeserializeObject<Scheme>(File.ReadAllText(path));
         }
-    }
-
-    class Scheme
-    {
-        [JsonProperty("columns")]
-        public List<SchemeElement> Elements { get; private set; } = new List<SchemeElement>();
     }
 
     class SchemeElement
@@ -60,5 +55,11 @@ namespace Lab123
 
         [JsonProperty("type")]
         public string Type { get; private set; }
+    }
+
+    class Scheme
+    {
+        [JsonProperty("columns")]
+        public List<SchemeElement> Elements { get; private set; } = new List<SchemeElement>();
     }
 }

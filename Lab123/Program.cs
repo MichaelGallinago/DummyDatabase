@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace Lab123
 {
@@ -7,6 +6,9 @@ namespace Lab123
     {
         static void Main()
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
+            // Пути к файлам
             string projectPath = Environment.CurrentDirectory;
 
             string dataPathUsers = projectPath + "//Data//Users.csv";
@@ -16,11 +18,10 @@ namespace Lab123
             string dataPathUserBook = projectPath + "//Data//UserBook.csv";
             string schemePathUserBook = projectPath + "//Schemes//schemeUserBook.json";
 
+            // Чтение файлов таблиц
             string[] dataUsers = CVS.GetData(dataPathUsers, schemePathUser);
             string[] dataBooks = CVS.GetData(dataPathBooks, schemePathBook);
             string[] dataUserBook = CVS.GetData(dataPathUserBook, schemePathUserBook);
-
-            if (dataUsers.Length == 0 || dataBooks.Length == 0) return;
 
             Dictionary<uint, User> users = new Dictionary<uint, User>();
             Dictionary<uint, Book> books = new Dictionary<uint, Book>();
@@ -28,14 +29,13 @@ namespace Lab123
 
             Dictionary<string, uint> maxDataLength = new Dictionary<string, uint>()
             {
-                {"autor", 0},
-                {"book", 0},
-                {"user", 0},
-                {"date", 0}
+                {"autor", 0}, {"book", 0}, {"user", 0}, {"date", 0}
             };
 
+            // Увеличиваем максимальную ширину ячейки в таблице, если найдено более длинное слово
             void updateLength(string data, string key) => maxDataLength[key] = Math.Max((uint)data.Length, maxDataLength[key]);
 
+            // Заносим  в словарь пользователей
             foreach (string row in dataUsers)
             {
                 string[] cells = row.Split(";");
@@ -57,6 +57,7 @@ namespace Lab123
                 userBook.Add(uint.Parse(cells[1]), (userID, date));
             }
 
+            // Заносим в словарь книги
             foreach (string row in dataBooks)
             {
                 string[] cells = row.Split(";");
@@ -83,10 +84,9 @@ namespace Lab123
 
         private static void WriteTable(Dictionary<uint, Book> books, Dictionary<uint, User> users, Dictionary<string, uint> maxDataLength)
         {
-            string GetWPS(string key, int subtract) => new string(' ', (int)maxDataLength[key] - subtract);
+            string GetWPS(string key, int offset) => new string(' ', (int)maxDataLength[key] - offset);
 
-            Console.OutputEncoding = Encoding.UTF8;
-            var frame = $"|{GetWPS("autor", -2)}|{GetWPS("book", -2)}|{GetWPS("user", -2)}|{GetWPS("date", -2)}|".Replace(' ', '-');
+            var frame = $"| {GetWPS("autor", 0)} | {GetWPS("book", 0)} | {GetWPS("user", 0)} | {GetWPS("date", 0)} |".Replace(' ', '-');
             Console.WriteLine($"| Автор{GetWPS("autor", 5)} | Название{GetWPS("book", 8)} | Читает{GetWPS("user", 6)} | Взял{GetWPS("date", 4)} |");
             Console.WriteLine(frame);
             foreach (KeyValuePair<uint, Book> keyBook in books)
