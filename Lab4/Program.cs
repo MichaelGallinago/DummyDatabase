@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using System.IO;
+using System;
 
 namespace Lab4
 {
@@ -10,13 +12,17 @@ namespace Lab4
 
             // Пути к файлам
             string projectPath = Environment.CurrentDirectory;
+            Console.WriteLine("Enter database name");
+            string databaseName = Console.ReadLine();
+            string dataPath = $"{projectPath}//Data//{databaseName}_File";
+            string schemePath = $"{projectPath}//Schemes//{databaseName}";
 
-            string dataPathUsers = projectPath + "//Data//Users.csv";
-            string schemePathUser = projectPath + "//Schemes//schemeUser.json";
-            string dataPathBooks = projectPath + "//Data//Books.csv";
-            string schemePathBook = projectPath + "//Schemes//schemeBook.json";
-            string dataPathUserBook = projectPath + "//Data//UserBook.csv";
-            string schemePathUserBook = projectPath + "//Schemes//schemeUserBook.json";
+            int number = 1;
+            while (File.Exists(dataPath + number))
+            {
+                
+                number++;
+            }
         }
     }
 }
