@@ -27,7 +27,7 @@ namespace Lab123
 
             Dictionary<uint, User> users = new Dictionary<uint, User>();
             Dictionary<uint, Book> books = new Dictionary<uint, Book>();
-            Dictionary<uint, (uint, DateTime)> userBook = new Dictionary<uint, (uint, DateTime)>();
+            Dictionary<uint, UserBook> userBook = new Dictionary<uint, UserBook>();
 
             Dictionary<string, uint> maxDataLength = new Dictionary<string, uint>()
             {
@@ -51,12 +51,14 @@ namespace Lab123
                 if (cells[3] != "") continue;
 
                 var userID = uint.Parse(cells[0]);
-                var date = DateTime.Parse(cells[2]);
+                var bookID = uint.Parse(cells[1]);
+                var takeDate = DateTime.Parse(cells[2]);
+                var returnDate = new DateTime();
 
                 updateLength(users[userID].FullName, "user");
-                updateLength(date.ToString(), "date");
+                updateLength(takeDate.ToString(), "date");
 
-                userBook.Add(uint.Parse(cells[1]), (userID, date));
+                userBook.Add(bookID, new UserBook(userID, takeDate, returnDate));
             }
 
             // Заносим в словарь книги
@@ -64,7 +66,7 @@ namespace Lab123
             {
                 string[] cells = row.Split(";");
                 var id = uint.Parse(cells[0]);
-                var book = new Book(cells[1], cells[2], int.Parse(cells[3]), int.Parse(cells[4]), int.Parse(cells[5]));
+                var book = new Book(cells[1], cells[2], uint.Parse(cells[3]), uint.Parse(cells[4]), uint.Parse(cells[5]));
 
                 updateLength(cells[1], "autor");
                 updateLength(cells[2], "book");
@@ -97,10 +99,10 @@ namespace Lab123
                 Console.Write($"|{GetWPS("autor", book.Author)}|{GetWPS("book", book.Name)}|");
 
                 string userName = "", takeDate = "";
-                if (!book.Availability)
+                if (!(book.Availability || book.UserBook == null))
                 {
-                    userName = users[book.UserBook.Item1].FullName;
-                    takeDate = book.UserBook.Item2.ToString();
+                    userName = users[book.UserBook.UserID].FullName;
+                    takeDate = book.UserBook.TakeDate.ToString();
                 }
                 Console.WriteLine($"{GetWPS("user", userName)}|{GetWPS("date", takeDate)}|");
             }

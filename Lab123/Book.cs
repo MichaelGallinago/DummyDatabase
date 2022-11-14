@@ -4,15 +4,15 @@ namespace Lab123
 {
     class Book
     {
-        public string Author { get; private set; }
-        public string Name { get; private set; }
-        public int Year { get; private set; }
-        public int BooksheflID { get; private set; }
-        public int ShelfID { get; private set; }
+        public string Author { get; }
+        public string Name { get; }
+        public uint Year { get; }
+        public uint BooksheflID { get; }
+        public uint ShelfID { get; }
         public bool Availability { get; set; }
-        public (uint, DateTime) UserBook { get; set; }
+        public UserBook? UserBook { get; set; }
 
-        public Book(string author, string name, int year, int booksheflID, int shelfID)
+        public Book(string author, string name, uint year, uint booksheflID, uint shelfID)
         {
             Author = author;
             Name = name;

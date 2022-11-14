@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 namespace Lab4
 {
@@ -18,6 +19,7 @@ namespace Lab4
             string schemePath = $"{projectPath}//Schemes//{databaseName}";
 
             int number = 1;
+            List<string[]>
             while (File.Exists(dataPath + number))
             {
                 
