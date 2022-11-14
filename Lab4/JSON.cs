@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Lab123
+namespace Lab4
 {
     internal class JSON
     {
@@ -18,21 +15,21 @@ namespace Lab123
                     bool isCorrecType = true;
                     switch (scheme.Elements[j].Type)
                     {
-                        case "uint": 
-                            isCorrecType = uint.TryParse(rowСell, out _); 
+                        case "uint":
+                            isCorrecType = uint.TryParse(rowСell, out _);
                             break;
-                        case "bool": 
-                            isCorrecType = bool.TryParse(rowСell, out _); 
+                        case "bool":
+                            isCorrecType = bool.TryParse(rowСell, out _);
                             break;
-                        case "dateTime":  
-                            isCorrecType = DateTime.TryParse(rowСell, out _); 
+                        case "dateTime":
+                            isCorrecType = DateTime.TryParse(rowСell, out _);
                             break;
-                        case "dateTime'": 
-                            isCorrecType = DateTime.TryParse(rowСell, out _) || rowСell == ""; 
+                        case "dateTime'":
+                            isCorrecType = DateTime.TryParse(rowСell, out _) || rowСell == "";
                             break;
                     }
 
-                    if (!isCorrecType) 
+                    if (!isCorrecType)
                         return ThrowErrorMessage(i, j, rowСells[j]);
                 }
             }

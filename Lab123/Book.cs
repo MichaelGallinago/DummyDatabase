@@ -1,4 +1,6 @@
-﻿namespace Lab123
+﻿using System;
+
+namespace Lab123
 {
     class Book
     {

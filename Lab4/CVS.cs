@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Lab123
+﻿namespace Lab4
 {
     class CVS
     {
@@ -10,24 +7,16 @@ namespace Lab123
             try
             {
                 if (!File.Exists(filePath))
-                {
                     throw new FileNotFoundException($"CVS File not found on path: {filePath}");
-                }
 
                 if (!File.Exists(schemePath))
-                {
                     throw new FileNotFoundException($"JSON Scheme not found on path: {schemePath}");
-                }
 
-                string[] lines = File.ReadAllLines(filePath);
+                var lines = File.ReadAllLines(filePath);
                 var scheme = JSON.GetScheme(schemePath);
 
                 if (JSON.IsValidToScheme(lines, scheme))
-                {
-                    string[] result = new string[lines.Length - 1];
-                    Array.Copy(lines, 1, result, 0, lines.Length - 1);
-                    return result;
-                }
+                    return lines.Skip(1).ToArray();
             }
             catch (FormatException exception)
             {
@@ -43,7 +32,7 @@ namespace Lab123
                 Console.WriteLine("Press any button to exit.");
                 Console.ReadKey();
             }
-            return new string[]{};
+            return new string[] { };
         }
     }
 }
