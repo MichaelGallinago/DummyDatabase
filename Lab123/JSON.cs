@@ -62,10 +62,10 @@ namespace Lab123
     public class SchemeElement
     {
         [JsonProperty("name")]
-        public string Name { get; private set; }
+        public string? Name { get; private set; }
 
         [JsonProperty("type")]
-        public string Type { get; private set; }
+        public string? Type { get; private set; }
     }
 
     public class Scheme

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Lab123
 {
-    public class CVS
+    public class CSV
     {
         public static string[] GetData(string filePath, string schemePath)
         {
@@ -11,7 +11,7 @@ namespace Lab123
             {
                 if (!File.Exists(filePath))
                 {
-                    throw new FileNotFoundException($"CVS File not found on path: {filePath}");
+                    throw new FileNotFoundException($"CSV File not found on path: {filePath}");
                 }
 
                 if (!File.Exists(schemePath))
@@ -20,7 +20,7 @@ namespace Lab123
                 }
 
                 string[] lines = File.ReadAllLines(filePath);
-                var scheme = JSON.GetScheme(schemePath);
+                Scheme scheme = JSON.GetScheme(schemePath);
 
                 if (JSON.IsValidToScheme(lines, scheme))
                 {

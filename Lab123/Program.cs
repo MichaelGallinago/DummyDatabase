@@ -21,9 +21,9 @@ namespace Lab123
             string schemePathUserBook = projectPath + "//Schemes//schemeUserBook.json";
 
             // Чтение файлов таблиц
-            string[] dataUsers = CVS.GetData(dataPathUsers, schemePathUser);
-            string[] dataBooks = CVS.GetData(dataPathBooks, schemePathBook);
-            string[] dataUserBook = CVS.GetData(dataPathUserBook, schemePathUserBook);
+            string[] dataUsers = CSV.GetData(dataPathUsers, schemePathUser);
+            string[] dataBooks = CSV.GetData(dataPathBooks, schemePathBook);
+            string[] dataUserBook = CSV.GetData(dataPathUserBook, schemePathUserBook);
 
             Dictionary<uint, User> users = new Dictionary<uint, User>();
             Dictionary<uint, Book> books = new Dictionary<uint, Book>();
@@ -50,10 +50,10 @@ namespace Lab123
                 string[] cells = row.Split(";");
                 if (cells[3] != "") continue;
 
-                var userID = uint.Parse(cells[0]);
-                var bookID = uint.Parse(cells[1]);
-                var takeDate = DateTime.Parse(cells[2]);
-                var returnDate = new DateTime();
+                uint userID = uint.Parse(cells[0]);
+                uint bookID = uint.Parse(cells[1]);
+                DateTime takeDate = DateTime.Parse(cells[2]);
+                DateTime returnDate = new DateTime();
 
                 updateLength(users[userID].FullName, "user");
                 updateLength(takeDate.ToString(), "date");
@@ -65,8 +65,8 @@ namespace Lab123
             foreach (string row in dataBooks)
             {
                 string[] cells = row.Split(";");
-                var id = uint.Parse(cells[0]);
-                var book = new Book(cells[1], cells[2], uint.Parse(cells[3]), uint.Parse(cells[4]), uint.Parse(cells[5]));
+                uint id = uint.Parse(cells[0]);
+                Book book = new Book(cells[1], cells[2], uint.Parse(cells[3]), uint.Parse(cells[4]), uint.Parse(cells[5]));
 
                 updateLength(cells[1], "autor");
                 updateLength(cells[2], "book");
@@ -90,12 +90,12 @@ namespace Lab123
         {
             string GetWPS(string key, string text) => $" {text.PadRight((int)maxDataLength[key])} ";
 
-            var frame = $"|{GetWPS("autor", "")}|{GetWPS("book", "")}|{GetWPS("user", "")}|{GetWPS("date", "")}|".Replace(' ', '-');
+            string frame = $"|{GetWPS("autor", "")}|{GetWPS("book", "")}|{GetWPS("user", "")}|{GetWPS("date", "")}|".Replace(' ', '-');
             Console.WriteLine($"|{GetWPS("autor", "Автор")}|{GetWPS("book", "Название")}|{GetWPS("user", "Читает")}|{GetWPS("date", "Взял")}|");
             Console.WriteLine(frame);
             foreach (KeyValuePair<uint, Book> keyBook in books)
             {
-                var book = keyBook.Value;
+                Book book = keyBook.Value;
                 Console.Write($"|{GetWPS("autor", book.Author)}|{GetWPS("book", book.Name)}|");
 
                 string userName = "", takeDate = "";

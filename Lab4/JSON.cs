@@ -5,7 +5,7 @@ using System;
 
 namespace Lab4
 {
-    internal class JSON
+    public class JSON
     {
         public static bool IsValidToScheme(string[] rows, Scheme scheme)
         {
@@ -59,7 +59,7 @@ namespace Lab4
         }
     }
 
-    class SchemeElement
+    public class SchemeColumn
     {
         [JsonProperty("name")]
         public string Name { get; private set; }
@@ -68,9 +68,12 @@ namespace Lab4
         public string Type { get; private set; }
     }
 
-    class Scheme
+    public class Scheme
     {
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; private set; }
+
         [JsonProperty("columns")]
-        public List<SchemeElement> Elements { get; private set; } = new List<SchemeElement>();
+        public List<SchemeColumn> Elements { get; private set; } = new List<SchemeColumn>();
     }
 }
