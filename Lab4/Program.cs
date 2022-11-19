@@ -16,15 +16,27 @@ namespace Lab4
             Console.WriteLine("Enter database name");
             string databaseName = Console.ReadLine();
             string dataPath = $"{projectPath}//Data//{databaseName}_File";
-            string schemePath = $"{projectPath}//Schemes//{databaseName}";
+            string schemePath = $"{projectPath}//Schemes//{databaseName}_Scheme";
 
+            // Чтение файлов таблиц
+            List<string[]> Files = new List<string[]>();
             int number = 1;
-            List<string[]>
-            while (File.Exists(dataPath + number))
+            while (true)
             {
-                
+                if (!(File.Exists(dataPath + number) && File.Exists(schemePath + number)))
+                {
+                    if (Files.Count == 0)
+                    {
+                        Console.WriteLine("The database with this name was not found");
+                    }
+                    break;
+                }
+                Files.Add(CVS.GetData(dataPath + number, schemePath + number));
                 number++;
             }
+
+            Console.WriteLine("Press any button to exit.");
+            Console.ReadKey();
         }
     }
 }

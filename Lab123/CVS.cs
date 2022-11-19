@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Lab123
 {
-    class CVS
+    public class CVS
     {
         public static string[] GetData(string filePath, string schemePath)
         {

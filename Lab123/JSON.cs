@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Lab123
 {
-    internal class JSON
+    public class JSON
     {
         public static bool IsValidToScheme(string[] rows, Scheme scheme)
         {
@@ -27,7 +27,7 @@ namespace Lab123
                         case "dateTime":  
                             isCorrecType = DateTime.TryParse(rowСell, out _); 
                             break;
-                        case "dateTime'": 
+                        case "dateTime?": 
                             isCorrecType = DateTime.TryParse(rowСell, out _) || rowСell == ""; 
                             break;
                     }
@@ -59,7 +59,7 @@ namespace Lab123
         }
     }
 
-    class SchemeElement
+    public class SchemeElement
     {
         [JsonProperty("name")]
         public string Name { get; private set; }
@@ -68,7 +68,7 @@ namespace Lab123
         public string Type { get; private set; }
     }
 
-    class Scheme
+    public class Scheme
     {
         [JsonProperty("columns")]
         public List<SchemeElement> Elements { get; private set; } = new List<SchemeElement>();

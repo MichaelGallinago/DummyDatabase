@@ -27,7 +27,7 @@ namespace Lab4
                         case "dateTime":
                             isCorrecType = DateTime.TryParse(rowСell, out _);
                             break;
-                        case "dateTime'":
+                        case "dateTime?":
                             isCorrecType = DateTime.TryParse(rowСell, out _) || rowСell == "";
                             break;
                     }

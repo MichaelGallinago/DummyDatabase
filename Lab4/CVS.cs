@@ -10,23 +10,16 @@ namespace Lab4
             try
             {
                 if (!File.Exists(filePath))
-                {
                     throw new FileNotFoundException($"CVS File not found on path: {filePath}");
-                }
+
                 if (!File.Exists(schemePath))
-                {
                     throw new FileNotFoundException($"JSON Scheme not found on path: {schemePath}");
-                }
 
                 var lines = File.ReadAllLines(filePath);
                 var scheme = JSON.GetScheme(schemePath);
 
                 if (JSON.IsValidToScheme(lines, scheme))
-                {
-                    string[] result = new string[lines.Length - 1];
-                    Array.Copy(lines, 1, result, 0, lines.Length - 1);
-                    return result;
-                }
+                    return lines;
             }
             catch (FormatException exception)
             {

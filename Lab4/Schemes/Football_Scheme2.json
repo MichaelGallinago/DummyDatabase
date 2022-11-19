@@ -2,23 +2,33 @@
   "name": "UserBook",
   "columns": [
     {
-      "name": "userID",
+      "name": "id",
       "type": "uint",
       "isPrimary": true
     },
     {
-      "name": "bookID",
-      "type": "uint",
-      "isPrimary": true
-    },
-    {
-      "name": "takeDate",
+      "name": "matchDate",
       "type": "dateTime",
       "isPrimary": false
     },
     {
-      "name": "returnDate",
-      "type": "dateTime'",
+      "name": "firstTeamID",
+      "type": "uint",
+      "isPrimary": false
+    },
+    {
+      "name": "secondTeamID",
+      "type": "uint",
+      "isPrimary": false
+    },
+    {
+      "name": "scoreFirst",
+      "type": "uint",
+      "isPrimary": false
+    },
+    {
+      "name": "scoreSecond",
+      "type": "uint",
       "isPrimary": false
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "name": "User",
+  "name": "Team",
   "columns": [
     {
       "name": "id",
@@ -7,7 +7,12 @@
       "isPrimary": true
     },
     {
-      "name": "fullName",
+      "name": "name",
+      "type": "string",
+      "isPrimary": false
+    },
+    {
+      "name": "city",
       "type": "string",
       "isPrimary": false
     }
