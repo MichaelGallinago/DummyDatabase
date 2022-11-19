@@ -62,16 +62,16 @@ namespace Lab4
     public class SchemeColumn
     {
         [JsonProperty("name")]
-        public string Name { get; private set; }
+        public string? Name { get; private set; }
 
         [JsonProperty("type")]
-        public string Type { get; private set; }
+        public string? Type { get; private set; }
     }
 
     public class Scheme
     {
         [JsonProperty(PropertyName = "name")]
-        public string Name { get; private set; }
+        public string? Name { get; private set; }
 
         [JsonProperty("columns")]
         public List<SchemeColumn> Elements { get; private set; } = new List<SchemeColumn>();

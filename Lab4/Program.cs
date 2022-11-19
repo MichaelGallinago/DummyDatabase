@@ -11,16 +11,23 @@ namespace Lab4
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            // Пути к файлам
-            string projectPath = Environment.CurrentDirectory;
             Console.WriteLine("Enter database name");
             string databaseName = Console.ReadLine();
+            string projectPath = Environment.CurrentDirectory;
             string dataPath = $"{projectPath}\\Data\\{databaseName}_File";
             string schemePath = $"{projectPath}\\Schemes\\{databaseName}_Scheme";
 
-            // Чтение файлов таблиц
-            List<string[]> Files = new List<string[]>();
-            List<Scheme> Schemes = new List<Scheme>();
+            (List<string[]>, List<Scheme>) filesSchemes = ReadFiles(dataPath, schemePath);
+            List<Table> tables = CreateDatabase(filesSchemes);
+
+            Console.WriteLine("Press any button to exit.");
+            Console.ReadKey();
+        }
+
+        private static (List<string[]>, List<Scheme>) ReadFiles(string dataPath, string schemePath)
+        {
+            List<string[]> files = new List<string[]>();
+            List<Scheme> schemes = new List<Scheme>();
             int number = 1;
             while (true)
             {
@@ -28,29 +35,33 @@ namespace Lab4
                 string currentSchemePath = $"{schemePath}{number}.json";
                 if (!(File.Exists(currentFilePath) && File.Exists(currentSchemePath)))
                 {
-                    if (Files.Count == 0)
+                    if (files.Count == 0)
                     {
                         Console.WriteLine("The database with this name was not found");
                     }
                     break;
                 }
-                Files.Add(CSV.GetData(currentFilePath, currentSchemePath));
-                Schemes.Add(JSON.GetScheme(currentSchemePath));
+                files.Add(CSV.GetData(currentFilePath, currentSchemePath));
+                schemes.Add(JSON.GetScheme(currentSchemePath));
                 number++;
             }
+            return (files, schemes);
+        }
 
-            List<Table> Tables = new List<Table>();
-            if (Files.Count > 0)
+        private static List<Table> CreateDatabase((List<string[]>, List<Scheme>) filesSchemes)
+        {
+            List<string[]> files = filesSchemes.Item1;
+            List<Scheme> schemes = filesSchemes.Item2;
+            List<Table> tables = new List<Table>();
+            if (files.Count > 0)
             {
-                for (int i = 0; i < Files.Count; i++)
+                for (int i = 0; i < files.Count; i++)
                 {
-                    Tables.Add(new Table(Files[i], Schemes[i]));
+                    tables.Add(new Table(files[i], schemes[i]));
                 }
                 Console.WriteLine("The database has been successfully created");
             }
-
-            Console.WriteLine("Press any button to exit.");
-            Console.ReadKey();
+            return tables;
         }
     }
 }

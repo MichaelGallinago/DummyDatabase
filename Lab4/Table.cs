@@ -22,13 +22,10 @@ namespace Lab4
             }
         }
 
-        private object[] GetColumnElements(string[][] fileElements, string dataType, int number)
+        private object[] GetColumnElements(string[][] fileElements, string? dataType, int number)
         {
-            if (fileElements.Length == 0) 
-                return new object[0];
-
-            object[] columnElements = new object[fileElements[0].Length];
-            for (int j = 0; j < fileElements[0].Length; j++)
+            object[] columnElements = new object[fileElements.Length];
+            for (int j = 0; j < fileElements.Length; j++)
             {
                 string element = fileElements[j][number];
                 switch (dataType)
@@ -66,9 +63,9 @@ namespace Lab4
     class Column
     {
         public string? Name { get; }
-        public string DataType { get; }
+        public string? DataType { get; }
 
-        public Column(string? name, string dataType)
+        public Column(string? name, string? dataType)
         {
             Name = name;
             DataType = dataType;
