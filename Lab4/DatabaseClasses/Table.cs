@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lab4.SchemeClasses;
 
-namespace Lab4
+namespace Lab4.DatabaseClasses
 {
     class Table
     {
@@ -13,7 +14,7 @@ namespace Lab4
             Name = scheme.Name;
 
             string[][] fileElements = GetFileElements(file);
-            for (int i = 0; i < scheme.Elements.Count; i++) 
+            for (int i = 0; i < scheme.Elements.Count; i++)
             {
                 Column column = new Column(scheme.Elements[i].Name, scheme.Elements[i].Type);
                 object[] columnElements = GetColumnElements(fileElements, column.DataType, i);
@@ -57,18 +58,6 @@ namespace Lab4
             for (int i = 0; i < file.Length; i++)
                 elements[i] = file[i].Split(';');
             return elements;
-        }
-    }
-    
-    class Column
-    {
-        public string? Name { get; }
-        public string? DataType { get; }
-
-        public Column(string? name, string? dataType)
-        {
-            Name = name;
-            DataType = dataType;
         }
     }
 }

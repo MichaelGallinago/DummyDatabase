@@ -2,6 +2,8 @@
 using System.IO;
 using System;
 using System.Collections.Generic;
+using Lab4.DatabaseClasses;
+using Lab4.SchemeClasses;
 
 namespace Lab4
 {
@@ -19,9 +21,23 @@ namespace Lab4
 
             (List<string[]>, List<Scheme>) filesSchemes = ReadFiles(dataPath, schemePath);
             List<Table> tables = CreateDatabase(filesSchemes);
+            WriteDatabase(tables);
 
             Console.WriteLine("Press any button to exit.");
             Console.ReadKey();
+        }
+
+        private static void WriteDatabase(List<Table> tables)
+        {
+            Console.WriteLine();
+            foreach (Table table in tables)
+            {
+                foreach (var row in table.Rows)
+                {
+                    Console.WriteLine(String.Join(";", row.Value));
+                }
+                Console.WriteLine();
+            }
         }
 
         private static (List<string[]>, List<Scheme>) ReadFiles(string dataPath, string schemePath)

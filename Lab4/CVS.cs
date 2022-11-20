@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Lab4
 {
-    class CSV
+    internal class CSV
     {
         public static string[] GetData(string filePath, string schemePath)
         {
