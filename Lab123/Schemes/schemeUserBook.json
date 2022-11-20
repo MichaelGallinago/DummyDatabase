@@ -1,0 +1,25 @@
+{
+  "name": "UserBook",
+  "columns": [
+    {
+      "name": "userID",
+      "type": "uint",
+      "isPrimary": true
+    },
+    {
+      "name": "bookID",
+      "type": "uint",
+      "isPrimary": true
+    },
+    {
+      "name": "takeDate",
+      "type": "dateTime",
+      "isPrimary": false
+    },
+    {
+      "name": "returnDate",
+      "type": "dateTime?",
+      "isPrimary": false
+    }
+  ]
+}

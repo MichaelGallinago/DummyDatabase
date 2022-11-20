@@ -1,0 +1,20 @@
+{
+  "name": "Team",
+  "columns": [
+    {
+      "name": "id",
+      "type": "uint",
+      "isPrimary": true
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "isPrimary": false
+    },
+    {
+      "name": "city",
+      "type": "string",
+      "isPrimary": false
+    }
+  ]
+}
