@@ -6,6 +6,17 @@ namespace Lab123
 {
     internal class Program
     {
+        private static Dictionary<string, uint> maxDataLength = new Dictionary<string, uint>()
+        {
+            {"autor", 0}, {"book", 0}, {"user", 0}, {"date", 0}
+        };
+
+        private static void updateLength(string data, string key)
+        {
+            // Увеличиваем максимальную ширину ячейки в таблице, если найдено более длинное слово
+            maxDataLength[key] = Math.Max((uint)data.Length, maxDataLength[key]);
+        }
+
         static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -22,29 +33,34 @@ namespace Lab123
 
             // Чтение файлов таблиц
             string[] dataUsers = CSV.GetData(dataPathUsers, schemePathUser);
-            string[] dataBooks = CSV.GetData(dataPathBooks, schemePathBook);
             string[] dataUserBook = CSV.GetData(dataPathUserBook, schemePathUserBook);
+            string[] dataBooks = CSV.GetData(dataPathBooks, schemePathBook);
 
+            // Создание базы данных
+            Dictionary<uint, User> users = CreateUsers(dataUsers);
+            Dictionary<uint, UserBook> userBook = CreateUserBooks(dataUserBook, users);
+            Dictionary<uint, Book> books = CreateBooks(dataBooks, userBook);
+
+            WriteTable(books, users, maxDataLength);
+
+            Console.WriteLine("Press any button to exit.");
+            Console.ReadKey();
+        }
+
+        private static Dictionary<uint, User> CreateUsers(string[] dataUsers)
+        {
             Dictionary<uint, User> users = new Dictionary<uint, User>();
-            Dictionary<uint, Book> books = new Dictionary<uint, Book>();
-            Dictionary<uint, UserBook> userBook = new Dictionary<uint, UserBook>();
-
-            Dictionary<string, uint> maxDataLength = new Dictionary<string, uint>()
-            {
-                {"autor", 0}, {"book", 0}, {"user", 0}, {"date", 0}
-            };
-
-            // Увеличиваем максимальную ширину ячейки в таблице, если найдено более длинное слово
-            void updateLength(string data, string key) => maxDataLength[key] = Math.Max((uint)data.Length, maxDataLength[key]);
-
-            // Заносим  в словарь пользователей
             foreach (string row in dataUsers)
             {
                 string[] cells = row.Split(";");
                 users.Add(uint.Parse(cells[0]), new User(cells[1]));
             }
+            return users;
+        }
 
-            // Заносим в словарь книги, которые ещё не были возвращены, но были взяты
+        private static Dictionary<uint, UserBook> CreateUserBooks(string[] dataUserBook, Dictionary<uint, User> users)
+        {
+            Dictionary<uint, UserBook> userBook = new Dictionary<uint, UserBook>();
             foreach (string row in dataUserBook)
             {
                 string[] cells = row.Split(";");
@@ -60,8 +76,12 @@ namespace Lab123
 
                 userBook.Add(bookID, new UserBook(userID, takeDate, returnDate));
             }
+            return userBook;
+        }
 
-            // Заносим в словарь книги
+        private static Dictionary<uint, Book> CreateBooks(string[] dataBooks, Dictionary<uint, UserBook> userBook)
+        {
+            Dictionary<uint, Book> books = new Dictionary<uint, Book>();
             foreach (string row in dataBooks)
             {
                 string[] cells = row.Split(";");
@@ -79,11 +99,7 @@ namespace Lab123
 
                 books.Add(id, book);
             }
-
-            WriteTable(books, users, maxDataLength);
-
-            Console.WriteLine("Press any button to exit.");
-            Console.ReadKey();
+            return books;
         }
 
         private static void WriteTable(Dictionary<uint, Book> books, Dictionary<uint, User> users, Dictionary<string, uint> maxDataLength)
