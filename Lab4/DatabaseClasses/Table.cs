@@ -14,9 +14,9 @@ namespace Lab4.DatabaseClasses
             Name = scheme.Name;
 
             string[][] fileElements = GetFileElements(file);
-            for (int i = 0; i < scheme.Elements.Count; i++)
+            for (int i = 0; i < scheme.Columns.Count; i++)
             {
-                Column column = new Column(scheme.Elements[i].Name, scheme.Elements[i].Type);
+                Column column = new Column(scheme.Columns[i].Name, scheme.Columns[i].Type);
                 object[] columnElements = GetColumnElements(fileElements, column.DataType, i);
 
                 Rows.Add(column, columnElements);

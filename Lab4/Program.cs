@@ -13,13 +13,8 @@ namespace Lab4
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            Console.WriteLine("Enter database name");
-            string databaseName = Console.ReadLine();
-            string projectPath = Environment.CurrentDirectory;
-            string dataPath = $"{projectPath}\\Data\\{databaseName}_File";
-            string schemePath = $"{projectPath}\\Schemes\\{databaseName}_Scheme";
-
-            (List<string[]>, List<Scheme>) filesSchemes = ReadFiles(dataPath, schemePath);
+            (string, string) dataSchemePaths = GetDataSchemePaths();
+            (List<string[]>, List<Scheme>) filesSchemes = ReadFiles(dataSchemePaths);
             List<Table> tables = CreateDatabase(filesSchemes);
             WriteDatabase(tables);
 
@@ -40,10 +35,24 @@ namespace Lab4
             }
         }
 
-        private static (List<string[]>, List<Scheme>) ReadFiles(string dataPath, string schemePath)
+        private static (string, string) GetDataSchemePaths()
         {
+            Console.WriteLine("Enter database name");
+            string databaseName = Console.ReadLine();
+            string projectPath = Environment.CurrentDirectory;
+            string dataPath = $"{projectPath}\\Data\\{databaseName}_File";
+            string schemePath = $"{projectPath}\\Schemes\\{databaseName}_Scheme";
+            return (dataPath, schemePath);
+        }
+
+        private static (List<string[]>, List<Scheme>) ReadFiles((string, string) dataSchemePaths)
+        {
+            string dataPath   = dataSchemePaths.Item1;
+            string schemePath = dataSchemePaths.Item2;
+
             List<string[]> files = new List<string[]>();
             List<Scheme> schemes = new List<Scheme>();
+
             int number = 1;
             while (true)
             {
@@ -69,6 +78,7 @@ namespace Lab4
             List<string[]> files = filesSchemes.Item1;
             List<Scheme> schemes = filesSchemes.Item2;
             List<Table> tables = new List<Table>();
+
             if (files.Count > 0)
             {
                 for (int i = 0; i < files.Count; i++)

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Lab4.SchemeClasses
+namespace Lab123.SchemeClasses
 {
     public class Scheme
     {
