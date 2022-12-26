@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Lab4.SchemeClasses
+namespace Lab123.SchemeClasses
 {
     public class SchemeColumn
     {

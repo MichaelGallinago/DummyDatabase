@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
+﻿using System.IO;
+using Lab123.SchemeClasses;
 using Newtonsoft.Json;
 
 namespace Lab123
 {
-    public class JSON
+    internal class JSON
     {
         public static bool IsValidToScheme(string[] rows, Scheme scheme)
         {
@@ -57,20 +56,5 @@ namespace Lab123
         {
             return JsonConvert.DeserializeObject<Scheme>(File.ReadAllText(path));
         }
-    }
-
-    public class SchemeElement
-    {
-        [JsonProperty("name")]
-        public string? Name { get; private set; }
-
-        [JsonProperty("type")]
-        public string? Type { get; private set; }
-    }
-
-    public class Scheme
-    {
-        [JsonProperty("columns")]
-        public List<SchemeElement> Elements { get; private set; } = new List<SchemeElement>();
     }
 }

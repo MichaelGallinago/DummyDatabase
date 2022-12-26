@@ -69,6 +69,7 @@ namespace Lab4
         private static List<Table> CreateDatabase(List<string[]> files, List<Scheme> schemes)
         {
             List<Table> tables = new List<Table>();
+
             if (files.Count > 0)
             {
                 for (int i = 0; i < files.Count; i++)
