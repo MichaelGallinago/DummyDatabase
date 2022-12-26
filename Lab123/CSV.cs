@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Lab123.SchemeClasses;
 
 namespace Lab123
 {
@@ -20,8 +19,8 @@ namespace Lab123
                     throw new FileNotFoundException($"JSON Scheme not found on path: {schemePath}");
                 }
 
-                string[] lines = File.ReadAllLines(filePath);
-                Scheme scheme = JSON.GetScheme(schemePath);
+                var lines = File.ReadAllLines(filePath);
+                var scheme = JSON.GetScheme(schemePath);
 
                 if (ValidatorCSV.IsValidToScheme(lines, scheme))
                 {

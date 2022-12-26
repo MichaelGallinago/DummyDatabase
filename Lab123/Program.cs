@@ -107,7 +107,7 @@ namespace Lab123
         {
             string GetWPS(string key, string text) => $" {text.PadRight((int)maxDataLength[key])} ";
 
-            string frame = $"|{GetWPS("autor", "")}|{GetWPS("book", "")}|{GetWPS("user", "")}|{GetWPS("date", "")}|".Replace(' ', '-');
+            string frame = $"|{GetWPS("autor", string.Empty)}|{GetWPS("book", string.Empty)}|{GetWPS("user", string.Empty)}|{GetWPS("date", string.Empty)}|".Replace(' ', '-');
             Console.WriteLine($"|{GetWPS("autor", "Автор")}|{GetWPS("book", "Название")}|{GetWPS("user", "Читает")}|{GetWPS("date", "Взял")}|");
             Console.WriteLine(frame);
             foreach (KeyValuePair<uint, Book> keyBook in books)
@@ -115,7 +115,8 @@ namespace Lab123
                 Book book = keyBook.Value;
                 Console.Write($"|{GetWPS("autor", book.Author)}|{GetWPS("book", book.Name)}|");
 
-                string userName = "", takeDate = "";
+                string userName = string.Empty; 
+                string takeDate = string.Empty;
                 if (!(book.Availability || book.UserBook == null))
                 {
                     userName = users[book.UserBook.UserID].FullName;

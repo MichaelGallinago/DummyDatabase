@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Lab4.SchemeClasses;
 
 namespace Lab4
 {
