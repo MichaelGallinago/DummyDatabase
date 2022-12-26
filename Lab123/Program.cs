@@ -6,45 +6,62 @@ namespace Lab123
 {
     internal class Program
     {
+        private static Dictionary<string, uint> maxDataLength = new Dictionary<string, uint>()
+        {
+            {"autor", 0}, {"book", 0}, {"user", 0}, {"date", 0}
+        };
+
+        private enum Path
+        {
+            dataUsers, schemeUsers, dataBooks, schemeBooks, dataUserBook, schemeUserBook 
+        }
+
         static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            // Пути к файлам
-            string projectPath = Environment.CurrentDirectory;
+            string[] paths = GetPaths(Environment.CurrentDirectory);
+            string[] dataUsers = CSV.GetData(paths[(int)Path.dataUsers], paths[(int)Path.schemeUsers]);
+            string[] dataBooks = CSV.GetData(paths[(int)Path.dataBooks], paths[(int)Path.schemeBooks]);
+            string[] dataUserBook = CSV.GetData(paths[(int)Path.dataUserBook], paths[(int)Path.schemeUserBook]);
 
-            string dataPathUsers = projectPath + "//Data//Users.csv";
-            string schemePathUser = projectPath + "//Schemes//schemeUser.json";
-            string dataPathBooks = projectPath + "//Data//Books.csv";
-            string schemePathBook = projectPath + "//Schemes//schemeBook.json";
-            string dataPathUserBook = projectPath + "//Data//UserBook.csv";
-            string schemePathUserBook = projectPath + "//Schemes//schemeUserBook.json";
+            Dictionary<uint, User> users = FillUsersDictionary(dataUsers);
+            Dictionary<uint, UserBook> userBook = FillUserBookDictionary(dataUserBook, users);
+            Dictionary<uint, Book> books = FillBooksDictionary(dataBooks, userBook);
 
-            // Чтение файлов таблиц
-            string[] dataUsers = CSV.GetData(dataPathUsers, schemePathUser);
-            string[] dataBooks = CSV.GetData(dataPathBooks, schemePathBook);
-            string[] dataUserBook = CSV.GetData(dataPathUserBook, schemePathUserBook);
+            WriteTable(books, users, maxDataLength);
+        }
 
+        private static void UpdateLength(string data, string key)
+        {
+            maxDataLength[key] = Math.Max((uint)data.Length, maxDataLength[key]);
+        }
+
+        private static string[] GetPaths(string directory)
+        {
+            string dataPathUsers = directory + "//Data//Users.csv";
+            string schemePathUser = directory + "//Schemes//schemeUser.json";
+            string dataPathBooks = directory + "//Data//Books.csv";
+            string schemePathBooks = directory + "//Schemes//schemeBook.json";
+            string dataPathUserBook = directory + "//Data//UserBook.csv";
+            string schemePathUserBook = directory + "//Schemes//schemeUserBook.json";
+            return new [] { dataPathUsers, schemePathUser, dataPathBooks, schemePathBooks, dataPathUserBook, schemePathUserBook };
+        }
+
+        private static Dictionary<uint, User> FillUsersDictionary(string[] dataUsers)
+        {
             Dictionary<uint, User> users = new Dictionary<uint, User>();
-            Dictionary<uint, Book> books = new Dictionary<uint, Book>();
-            Dictionary<uint, UserBook> userBook = new Dictionary<uint, UserBook>();
-
-            Dictionary<string, uint> maxDataLength = new Dictionary<string, uint>()
-            {
-                {"autor", 0}, {"book", 0}, {"user", 0}, {"date", 0}
-            };
-
-            // Увеличиваем максимальную ширину ячейки в таблице, если найдено более длинное слово
-            void updateLength(string data, string key) => maxDataLength[key] = Math.Max((uint)data.Length, maxDataLength[key]);
-
-            // Заносим  в словарь пользователей
             foreach (string row in dataUsers)
             {
                 string[] cells = row.Split(";");
                 users.Add(uint.Parse(cells[0]), new User(cells[1]));
             }
+            return users;
+        }
 
-            // Заносим в словарь книги, которые ещё не были возвращены, но были взяты
+        private static Dictionary<uint, UserBook> FillUserBookDictionary(string[] dataUserBook, Dictionary<uint, User> users)
+        {
+            Dictionary<uint, UserBook> userBook = new Dictionary<uint, UserBook>();
             foreach (string row in dataUserBook)
             {
                 string[] cells = row.Split(";");
@@ -55,21 +72,25 @@ namespace Lab123
                 DateTime takeDate = DateTime.Parse(cells[2]);
                 DateTime returnDate = new DateTime();
 
-                updateLength(users[userID].FullName, "user");
-                updateLength(takeDate.ToString(), "date");
+                UpdateLength(users[userID].FullName, "user");
+                UpdateLength(takeDate.ToString(), "date");
 
                 userBook.Add(bookID, new UserBook(userID, takeDate, returnDate));
             }
+            return userBook;
+        }
 
-            // Заносим в словарь книги
+        private static Dictionary<uint, Book> FillBooksDictionary(string[] dataBooks, Dictionary<uint, UserBook> userBook)
+        {
+            Dictionary<uint, Book> books = new Dictionary<uint, Book>();
             foreach (string row in dataBooks)
             {
                 string[] cells = row.Split(";");
                 uint id = uint.Parse(cells[0]);
                 Book book = new Book(cells[1], cells[2], uint.Parse(cells[3]), uint.Parse(cells[4]), uint.Parse(cells[5]));
 
-                updateLength(cells[1], "autor");
-                updateLength(cells[2], "book");
+                UpdateLength(cells[1], "autor");
+                UpdateLength(cells[2], "book");
 
                 if (userBook.ContainsKey(id))
                 {
@@ -79,11 +100,7 @@ namespace Lab123
 
                 books.Add(id, book);
             }
-
-            WriteTable(books, users, maxDataLength);
-
-            Console.WriteLine("Press any button to exit.");
-            Console.ReadKey();
+            return books;
         }
 
         private static void WriteTable(Dictionary<uint, Book> books, Dictionary<uint, User> users, Dictionary<string, uint> maxDataLength)
@@ -107,6 +124,9 @@ namespace Lab123
                 Console.WriteLine($"{GetWPS("user", userName)}|{GetWPS("date", takeDate)}|");
             }
             Console.WriteLine(frame);
+
+            Console.WriteLine("Press any button to exit.");
+            Console.ReadKey();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Lab123
                             isCorrecType = DateTime.TryParse(rowСell, out _); 
                             break;
                         case "dateTime?": 
-                            isCorrecType = DateTime.TryParse(rowСell, out _) || rowСell == ""; 
+                            isCorrecType = DateTime.TryParse(rowСell, out _) || rowСell == string.Empty; 
                             break;
                     }
 

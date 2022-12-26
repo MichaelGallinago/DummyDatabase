@@ -13,18 +13,18 @@ namespace Lab4
         {
             Console.OutputEncoding = Encoding.UTF8;
 
+            GetPaths(out string dataPath, out string schemePath);
+            ReadFiles(dataPath, schemePath, out List<string[]> files, out List<Scheme> schemes);
+            WriteDatabase(CreateDatabase(files, schemes));
+        }
+
+        private static void GetPaths(out string dataPath, out string schemePath)
+        {
             Console.WriteLine("Enter database name");
             string databaseName = Console.ReadLine();
             string projectPath = Environment.CurrentDirectory;
-            string dataPath = $"{projectPath}\\Data\\{databaseName}_File";
-            string schemePath = $"{projectPath}\\Schemes\\{databaseName}_Scheme";
-
-            (List<string[]>, List<Scheme>) filesSchemes = ReadFiles(dataPath, schemePath);
-            List<Table> tables = CreateDatabase(filesSchemes);
-            WriteDatabase(tables);
-
-            Console.WriteLine("Press any button to exit.");
-            Console.ReadKey();
+            dataPath = $"{projectPath}\\Data\\{databaseName}_File";
+            schemePath = $"{projectPath}\\Schemes\\{databaseName}_Scheme";
         }
 
         private static void WriteDatabase(List<Table> tables)
@@ -38,12 +38,15 @@ namespace Lab4
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine("Press any button to exit.");
+            Console.ReadKey();
         }
-
-        private static (List<string[]>, List<Scheme>) ReadFiles(string dataPath, string schemePath)
+        
+        private static void ReadFiles(string dataPath, string schemePath, out List<string[]> files, out List<Scheme> schemes)
         {
-            List<string[]> files = new List<string[]>();
-            List<Scheme> schemes = new List<Scheme>();
+            files = new List<string[]>();
+            schemes = new List<Scheme>();
+
             int number = 1;
             while (true)
             {
@@ -61,13 +64,10 @@ namespace Lab4
                 schemes.Add(JSON.GetScheme(currentSchemePath));
                 number++;
             }
-            return (files, schemes);
         }
 
-        private static List<Table> CreateDatabase((List<string[]>, List<Scheme>) filesSchemes)
+        private static List<Table> CreateDatabase(List<string[]> files, List<Scheme> schemes)
         {
-            List<string[]> files = filesSchemes.Item1;
-            List<Scheme> schemes = filesSchemes.Item2;
             List<Table> tables = new List<Table>();
             if (files.Count > 0)
             {
